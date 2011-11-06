@@ -83,7 +83,7 @@ class SendMail:
             server.login(self.User, self.Pass)
             server.sendmail(self.User, to, msg.as_string())
             server.close()
-        except SMTPException, e:
+        except smtplib.SMTPException, e:
             sys.exit("ERROR: %s" % str(e))
 
 if __name__ == '__main__':
