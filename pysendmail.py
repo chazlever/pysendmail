@@ -97,9 +97,8 @@ class SendMail:
 if __name__ == '__main__':
 
     # PARSE COMMAND LINE PARAMETERS
-    parser = argparse.ArgumentParser(description="""
-    Script to send e-mails from the command line. Useful for sending automated
-    messages within shell scripts.""")
+    parser = argparse.ArgumentParser(description=\
+            ' '.join(__doc__.split('\n')[3:]))
 
     parser.add_argument('ACTION',
         action='store',
