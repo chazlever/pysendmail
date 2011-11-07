@@ -1,7 +1,15 @@
-#! /usr/bin/env python
-#
-# Author: Chaz Lever
-# Created:  11/17/2010
+#!/usr/bin/env python
+
+"""
+Send e-mails from Python scripts or the command line.
+
+A standalone program to send or receive applications from the command line. Can
+also be imported as a module into other Python scripts to facilitate sending
+e-mail.
+"""
+
+__author__ = 'Chaz Lever'
+__date__ = '11/17/2010'
 
 import argparse
 import base64
