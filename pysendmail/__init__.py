@@ -11,7 +11,6 @@ e-mail.
 __author__ = 'Chaz Lever'
 __date__ = '11/17/2010'
 
-import argparse
 import base64
 import email
 from email.Utils import COMMASPACE, formatdate
@@ -93,83 +92,3 @@ class SendMail:
             server.close()
         except smtplib.SMTPException, e:
             sys.exit("ERROR: %s" % str(e))
-
-if __name__ == '__main__':
-
-    # PARSE COMMAND LINE PARAMETERS
-    parser = argparse.ArgumentParser(description=\
-            ' '.join(__doc__.split('\n')[3:]))
-
-    parser.add_argument('ACTION',
-        action='store',
-        help='Script action to perform {config,send}')
-
-    # E-MAIL SEND PARAMETERS
-    group = parser.add_argument_group("send options")
-    group.add_argument('-t',
-        action='append',
-        dest='TOLIST',
-        default=[],
-        help='Email addresses in the TO: field')
-    group.add_argument('-s',
-        action='store',
-        dest='SUBJECT',
-        default='',
-        help='E-mail subject')
-    group.add_argument('-m',
-        action='store',
-        dest='MESSAGE',
-        default='',
-        help='E-mail message')
-    group.add_argument('-a',
-        action='append',
-        dest='ATTACHMENTS',
-        default=[],
-        help='Email attachments')
-
-     # E-MAIL CONFIG PARAMETERS
-    group = parser.add_argument_group("config options")
-    group.add_argument('--user',
-        action='store',
-        dest='USER',
-        default=None,
-        help='E-mail login for mail server')
-    group.add_argument('--pass',
-        action='store',
-        dest='PASS',
-        default=None,
-        help='E-mail password for mail server')
-    group.add_argument('--server',
-        action='store',
-        dest='SMTP_SERVER',
-        default='smtp.gmail.com',
-        help='Specify e-mail SMTP server')
-    group.add_argument('--port',
-        action='store',
-        dest='SMTP_PORT',
-        default=587,
-        type=int,
-        help='Specify e-mail SMTP port')
-    group.add_argument('--nossl',
-        action='store_false',
-        dest='SSL',
-        default=True,
-        help='Use SSL to connect to SMTP server')
-
-    results = parser.parse_args()
-
-    if 'config' == results.ACTION:
-        sendMail = SendMail()
-        sendMail.User = results.USER
-        sendMail.Pass = results.PASS
-        sendMail.SmtpServer = results.SMTP_SERVER
-        sendMail.SmtpPort = results.SMTP_PORT
-        sendMail.Ssl = results.SSL
-        sendMail.writeConfig()
-    elif 'send' == results.ACTION:
-        sendMail = SendMail()
-        sendMail.readConfig()
-        sendMail.send(results.TOLIST, results.SUBJECT, results.MESSAGE,
-            results.ATTACHMENTS)
-    else:
-        parser.print_help()
