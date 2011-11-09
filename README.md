@@ -14,9 +14,9 @@ Install using *pip*:
 
 Install using *setup.py*:
    
-   git clone git://github.com/chazlever/pysendmail.git
-   cd pysendmail
-   python setup.py install
+    git clone git://github.com/chazlever/pysendmail.git
+    cd pysendmail
+    python setup.py install
 
 ## How do I use it?
 
