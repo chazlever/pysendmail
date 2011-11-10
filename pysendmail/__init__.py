@@ -3,9 +3,8 @@
 """
 Send e-mails from Python scripts or the command line.
 
-A standalone program to send or receive applications from the command line. Can
-also be imported as a module into other Python scripts to facilitate sending
-e-mail.
+A standalone program to send or receive e-mail from the command line. Can also
+be imported as a module into other Python scripts to facilitate sending e-mail.
 """
 
 __author__ = 'Chaz Lever'
@@ -163,7 +162,7 @@ def _main():
         action='store_false',
         dest='SSL',
         default=True,
-        help='Use SSL to connect to SMTP server')
+        help='Do not use SSL to connect to SMTP server')
 
     results = parser.parse_args()
 
