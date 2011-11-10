@@ -14,7 +14,7 @@ __date__ = '11/17/2010'
 import argparse
 import base64
 import email
-from email.Utils import COMMASPACE, formatdate
+from email.Utils import formatdate
 import os
 import smtplib
 import stat
@@ -44,7 +44,7 @@ class SendMail:
                 f.write(base64.b64encode(':'.join(config)))
                 os.chmod(self.ConfigFile, stat.S_IRUSR | stat.S_IWUSR)
         except IOError, e:
-            sys.exit("ERROR: %s" % str(e))
+            sys.exit("ERROR: {0}".format(str(e)))
 
     def readConfig(self):
         """
@@ -60,7 +60,7 @@ class SendMail:
                 self.SmtpPort = int(config[3])
                 self.Ssl = ('True' == config[4])
         except IOError, e:
-            sys.exit("ERROR: %s" % str(e))
+            sys.exit("ERROR: {0}".format(str(e)))
 
     def send(self, to, subject, message, attachments=None):
         """
@@ -69,7 +69,7 @@ class SendMail:
         # BUILD THE E-MAIL MESSAGE
         msg = email.MIMEMultipart.MIMEMultipart()
         msg['From'] = self.User
-        msg['To'] = COMMASPACE.join(to)
+        msg['To'] = email.Utils.COMMASPACE.join(to)
         msg['Date'] = formatdate(localtime=True)
         msg['Subject'] = subject
         msg.attach(email.MIMEText.MIMEText(message))
@@ -87,7 +87,7 @@ class SendMail:
                         filename=os.path.basename(fname))
                     msg.attach(part)
         except Exception, e:
-            sys.exit("ERROR: %s" % str(e))
+            sys.exit("ERROR: {0}".format(str(e)))
 
         # CONNECT TO MAIL SERVER AND SEND MESSAGE
         try:
@@ -98,7 +98,7 @@ class SendMail:
             server.sendmail(self.User, to, msg.as_string())
             server.close()
         except smtplib.SMTPException, e:
-            sys.exit("ERROR: %s" % str(e))
+            sys.exit("ERROR: {0}".format(str(e)))
 
 
 def _main():
