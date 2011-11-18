@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pysendmail',
-    version='1.0',
+    version='1.01',
     description='Python Module/Script for Sending E-mail',
     author='Chaz Lever',
     author_email='pysendmail+github@chazlever.com',

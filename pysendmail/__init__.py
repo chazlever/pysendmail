@@ -9,6 +9,7 @@ be imported as a module into other Python scripts to facilitate sending e-mail.
 
 __author__ = 'Chaz Lever'
 __date__ = '11/17/2010'
+__version__ = '1.01'
 
 import argparse
 import base64
@@ -21,23 +22,22 @@ import sys
 
 
 class SendMail:
-    """
-    SendMail provides methods for sending e-mail.
-    """
-    def __init__(self):
-        self.User = None
-        self.Pass = None
-        self.SmtpServer = None
-        self.SmtpPort = None
-        self.Ssl = True
-        self.ConfigFile = os.path.expanduser('~/.pysendmail')
+    """SendMail provides methods for sending e-mail."""
+    def __init__(self, User=None, Pass=None, SmtpServer=None, SmtpPort=None,
+            Ssl=True, ConfigFile=None):
+        self.User = User
+        self.Pass = Pass
+        self.SmtpServer = SmtpServer
+        self.SmtpPort = SmtpPort
+        self.Ssl = Ssl
+        self.ConfigFile = os.path.expanduser('~/.pysendmail') \
+                if None == ConfigFile else ConfigFile
 
-    def writeConfig(self):
-        """
-        Write the configuration file containing server credentials.
-        """
+    def writeConfig(self, configFile=None):
+        """Write the configuration file containing server credentials."""
         try:
-            with open(self.ConfigFile, 'w') as f:
+            configFile = self.ConfigFile if None == configFile else configFile
+            with open(configFile, 'w') as f:
                 config = (self.User, self.Pass, self.SmtpServer,
                         str(self.SmtpPort), str(self.Ssl))
                 f.write(base64.b64encode(':'.join(config)))
@@ -45,11 +45,10 @@ class SendMail:
         except IOError, e:
             sys.exit("ERROR: {0}".format(str(e)))
 
-    def readConfig(self):
-        """
-        Read the configuration file containing server credentials.
-        """
+    def readConfig(self, configFile=None):
+        """Read the configuration file containing server credentials."""
         try:
+            configFile = self.ConfigFile if None == configFile else configFile
             with open(self.ConfigFile, 'r') as f:
                 config = base64.b64decode(f.readline().strip())
                 config = config.split(':')
@@ -62,9 +61,8 @@ class SendMail:
             sys.exit("ERROR: {0}".format(str(e)))
 
     def send(self, to, subject, message, attachments=None):
-        """
-        Send message to mail server over TLS connection.
-        """
+        """Send message to mail server over TLS connection."""
+        to = to if list == type(to) else [to]
         # BUILD THE E-MAIL MESSAGE
         msg = email.MIMEMultipart.MIMEMultipart()
         msg['From'] = self.User
@@ -101,9 +99,7 @@ class SendMail:
 
 
 def _main():
-    """
-    Parse options and send e-mail.
-    """
+    """Parse options and send e-mail."""
     # PARSE COMMAND LINE PARAMETERS
     parser = argparse.ArgumentParser(description=' '\
             .join(__doc__.split('\n')[3:]))
