@@ -9,7 +9,7 @@ be imported as a module into other Python scripts to facilitate sending e-mail.
 
 __author__ = 'Chaz Lever'
 __date__ = '11/17/2010'
-__version__ = '1.01'
+__version__ = '1.02'
 
 import argparse
 import base64
